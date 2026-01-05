@@ -1,0 +1,15 @@
+name: Hello World Workflow
+
+on:
+  push:
+    branches: [ "master" ] # Triggers the workflow on a push to the 'main' branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest # The type of runner that the job will run on
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4 # Action to checkout your repository code
+
+      - name: Run a one-line script to print hello
+        run: echo "Hello, Sahosoft!" # Command to run on the runner's shell
