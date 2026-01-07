@@ -1,6 +1,5 @@
 name: Angular CI Pipeline
 
-# Workflow kab trigger hoga
 on:
   push:
     branches:
@@ -9,26 +8,31 @@ on:
     branches:
       - master
 
-# Job define kar rahe hain
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Repo ka code checkout karo
+      # 1️⃣ Repo checkout
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Step 2: Node.js setup karo
+      # 2️⃣ Node.js setup
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
 
-      # Step 3: Dependencies install karo
+      # 3️⃣ Install dependencies
       - name: Install dependencies
         run: npm install
 
-      # Step 4: Angular tests run karo
+      # 4️⃣ Install Chrome (IMPORTANT)
+      - name: Install Google Chrome
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+
+      # 5️⃣ Run Angular tests
       - name: Run Angular Tests
         run: npm test -- --watch=false --browsers=ChromeHeadless
