@@ -15,35 +15,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout repository
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2️⃣ Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: v20.19
 
-      # 3️⃣ Install dependencies
       - name: Install dependencies
         run: npm install
 
-      # 4️⃣ Run Angular tests (CI)
       - name: Run Tests
         run: npm test
 
-      # 5️⃣ Build Angular app for GitHub Pages
-      # Repo name = angular21app
+      # Build with correct base-href (repo name)
       - name: Build Angular App
         run: npm run build -- --base-href /angular21app/
 
-      # 6️⃣ Upload build output (project name = gitdemoapp)
+      # 🔥 IMPORTANT FIX HERE
       - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist/gitdemoapp
+          path: dist/gitdemoapp/browser
 
-      # 7️⃣ Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
