@@ -1,0 +1,43 @@
+name: Angular CI + CD (GitHub Pages)
+
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build-test-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: v20.19
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Tests
+        run: npm test
+
+      # Build with correct base-href (repo name)
+      - name: Build Angular App
+        run: npm run build -- --base-href /angular21app/
+
+      # 🔥 IMPORTANT FIX HERE
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/gitdemoapp/browser
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
